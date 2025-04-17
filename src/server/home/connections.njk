@@ -1,0 +1,64 @@
+{% extends "layouts/page.njk" %}
+
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{% block content %}
+
+{{ appHeading({
+    text: heading,
+    caption: "Check another"
+  }) }}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+  <form method="get" action="/" autocomplete="off" novalidate>
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "< Back",
+          classes: "govuk-button--primary",
+          preventDoubleClick: true
+        }) }}
+      </div>
+</form>
+
+{{ govukTable({
+  caption: "Connection result",
+  captionClasses: "govuk-table__caption--m",
+  rows: [
+    [
+      {
+        text: "Connection URL"
+      },
+      {
+        text: checkResult.baseurl + " : " + checkResult.baseport
+      }
+    ],
+     [
+       {
+         text: "Connection Test Result Error"
+       },
+       {
+         html: checkResult.connectionResultError
+       }
+     ],
+     [
+       {
+         text: "Connection Test Result"
+       },
+       {
+         html: checkResult.connectionResult
+       }
+     ],
+     [
+          {
+       text: "Status Code"
+     },
+     {
+       text: checkResult.status+" : "+checkResult.statusText+" : "+checkResult.errorMessage
+     }
+   ]
+  ]
+}) }}
+
+{% endblock %}
+

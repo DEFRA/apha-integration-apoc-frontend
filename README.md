@@ -1,10 +1,6 @@
 # apha-integration-apoc-frontend
 
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_apha-integration-apoc-frontend&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=DEFRA_apha-integration-apoc-frontend)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_apha-integration-apoc-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=DEFRA_apha-integration-apoc-frontend)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=DEFRA_apha-integration-apoc-frontend&metric=coverage)](https://sonarcloud.io/summary/new_code?id=DEFRA_apha-integration-apoc-frontend)
-
-Core delivery platform Node.js Frontend Template.
+APHA Connectivity tester application, to test simple network connectivity from the CDP platform to various resource.
 
 - [Requirements](#requirements)
   - [Node.js](#nodejs)
