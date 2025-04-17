@@ -4,11 +4,11 @@
  * @satisfies {Partial<ServerRoute>}
  */
 import { config } from '~/src/config/config.js'
-export const connectivityController = {
+export const connectionSuiteConnectivityController = {
   handler(_request, h) {
-    return h.view('home/index', {
-      pageTitle: 'Connectivity',
-      heading: 'Connectivity',
+    return h.view('connectionsuite/index', {
+      pageTitle: 'Connection Suite',
+      heading: 'Connection Suite',
       urlList: config.get('urlList').map((e) => {
         return {
           text: e.text,
