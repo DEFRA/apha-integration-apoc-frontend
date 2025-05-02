@@ -26,6 +26,32 @@ const buildURLList = () => {
 }
 
 export const config = convict({
+  // custom params here
+  urlList: buildURLList(),
+  oraclePocDatabaseDetails: {
+    username: {
+      doc: 'PoC Database Username',
+      format: String,
+      nullable: true,
+      default: null,
+      env: 'ORACLEDB_POC_USERNAME'
+    },
+    password: {
+      doc: 'PoC Database Username',
+      format: String,
+      nullable: true,
+      default: null,
+      env: 'ORACLEDB_POC_PASSWORD'
+    },
+    dbname: {
+      doc: 'PoC Database Database name',
+      format: String,
+      nullable: true,
+      default: null,
+      env: 'ORACLEDB_POC_DBNAME'
+    }
+  },
+  // custom params above
   serviceVersion: {
     doc: 'The service version, this variable is injected into your docker container in CDP environments',
     format: String,
@@ -45,7 +71,6 @@ export const config = convict({
     default: 3000,
     env: 'PORT'
   },
-  urlList: buildURLList(),
   staticCacheTimeout: {
     doc: 'Static cache timeout in milliseconds',
     format: Number,
