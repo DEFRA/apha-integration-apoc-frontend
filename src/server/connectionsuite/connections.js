@@ -78,8 +78,10 @@ const connectionSuiteMakeConnectionController = {
       if (curlEnabled) {
         logger.info(`Curl command [${curlCommand}]`)
         curlResult = await execRun(curlCommand)
-        logger.info(`curlResult Error: ${formatResult(curlResult.stderr)}`)
-        logger.info(`curlResult StdOut: ${formatResult(curlResult.stdout)}`)
+        logger.info(`curlResult Error: ${formatResult('' + curlResult.stderr)}`)
+        logger.info(
+          `curlResult StdOut: ${formatResult('' + curlResult.stdout)}`
+        )
       }
 
       if (digEnabled) {
@@ -125,19 +127,19 @@ const connectionSuiteMakeConnectionController = {
         baseurl,
         status: checkResponse.status,
         statusText: checkResponse.statusText,
-        fetchResultData: formatResult(responseText),
+        fetchResultData: formatResult('' + responseText),
         digout: formatDig(digresult),
-        curlResult: formatResult(curlResult.stdout),
-        curlResultError: formatResult(curlResult.stderr),
-        nslookup: formatResult(nslookupResult.stdout),
-        nslookupError: formatResult(nslookupResult.stderr),
-        dbResult: formatResult(dbResult.rows),
-        dbResultError: formatResult(dbResult.errorMessage),
-        dbAltResult: formatResult(dbAltResult.rows),
-        dbAltResultError: formatResult(dbAltResult.errorMessage),
+        curlResult: formatResult('' + curlResult.stdout),
+        curlResultError: formatResult('' + curlResult.stderr),
+        nslookup: formatResult('' + nslookupResult.stdout),
+        nslookupError: formatResult('' + nslookupResult.stderr),
+        dbResult: formatResult('' + dbResult.rows),
+        dbResultError: formatResult('' + dbResult.errorMessage),
+        dbAltResult: formatResult('' + dbAltResult.rows),
+        dbAltResultError: formatResult('' + dbAltResult.errorMessage),
         connectionResult: connectionResult.connected,
         connectionResultError: formatResult(
-          connectionResult.proxyConnectErrCause
+          '' + connectionResult.proxyConnectErrCause
         )
       }
     } catch (error) {
@@ -150,17 +152,17 @@ const connectionSuiteMakeConnectionController = {
         errorMessage: error.message,
         stack: error.stack,
         digout: JSON.stringify(digresult),
-        curlResult: formatResult(curlResult.stdout),
-        curlResultError: formatResult(curlResult.stderr),
-        nslookup: formatResult(nslookupResult.stderr),
-        nslookupError: formatResult(nslookupResult.stderr),
-        dbResult: formatResult(dbResult.rows),
-        dbResultError: formatResult(dbResult.errorMessage),
-        dbAltResult: formatResult(dbAltResult.rows),
-        dbAltResultError: formatResult(dbAltResult.errorMessage),
+        curlResult: formatResult('' + curlResult.stdout),
+        curlResultError: formatResult('' + curlResult.stderr),
+        nslookup: formatResult('' + nslookupResult.stderr),
+        nslookupError: formatResult('' + nslookupResult.stderr),
+        dbResult: formatResult('' + dbResult.rows),
+        dbResultError: formatResult('' + dbResult.errorMessage),
+        dbAltResult: formatResult('' + dbAltResult.rows),
+        dbAltResultError: formatResult('' + dbAltResult.errorMessage),
         connectionResult: connectionResult.connected,
         connectionResultError: formatResult(
-          connectionResult.proxyConnectErrCause
+          '' + connectionResult.proxyConnectErrCause
         )
       }
     }
@@ -321,7 +323,7 @@ const formatDig = (digResult) => {
 }
 
 const encodeHTML = (originalStr) =>
-  originalStr.replace
+  originalStr?.replace
     ? originalStr
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -329,7 +331,7 @@ const encodeHTML = (originalStr) =>
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;')
         .replace(/\n/g, '<br>')
-    : originalStr
+    : '' + originalStr
 
 const testConnection = async (address) => {
   const proxyConfig = config.get('httpProxy')
