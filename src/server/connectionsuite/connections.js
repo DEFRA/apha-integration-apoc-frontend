@@ -113,12 +113,12 @@ const connectionSuiteMakeConnectionController = {
 
       if (dbEnabled) {
         logger.info('Running dbconnection test')
-        dbResult = await dbRun(baseurl)
+        dbResult = await dbRun(baseurl, logger)
       }
 
       if (dbAltEnabled) {
         logger.info('Running dbconnection test')
-        dbAltResult = await dbAltRun(baseurl)
+        dbAltResult = await dbAltRun(baseurl, logger)
       }
 
       results = {
@@ -207,19 +207,24 @@ const digRun = (baseUrl) => {
   })
 }
 
-const dbRun = async (address) => {
-  // const proxyConfig = config.get('httpProxy')
-  // const proxyUrl = new URL(proxyConfig)
-  // const proxyFinalConfig = proxyConfig
-  //   ? `?https_proxy=${proxyUrl.hostname}&https_proxy_port=${proxyUrl.port}`
-  //   : ''
+const dbRun = async (address, logger) => {
+  // This connection method uses the full oracle easy string - proxy info is embedded in the connection
+  const dbConnectionDetails = config.get('oraclePocDatabaseDetails')
+
+  if (
+    dbConnectionDetails.username == null ||
+    dbConnectionDetails.password == null
+  ) {
+    logger.warn('Username and/or password not configured in secrets')
+  }
+
   let runResults = {}
 
   let connection
   try {
     connection = await oracledb.getConnection({
-      user: 'test',
-      password: 'this is not a password',
+      user: dbConnectionDetails.username ?? '',
+      password: dbConnectionDetails.password ?? '',
       connectString: `${address}`
     })
 
@@ -246,22 +251,28 @@ const dbRun = async (address) => {
   return runResults
 }
 
-const dbAltRun = async (address) => {
+const dbAltRun = async (address, logger) => {
   const proxyConfig = config.get('httpProxy')
   const proxyUrl = proxyConfig
     ? new URL(proxyConfig)
     : new URL('http://localhost:1234')
-  // const proxyFinalConfig = proxyConfig
-  //   ? `?https_proxy=${proxyUrl.hostname}&https_proxy_port=${proxyUrl.port}`
-  //   : ''
+  const dbConnectionDetails = config.get('oraclePocDatabaseDetails')
+
+  if (
+    dbConnectionDetails.username == null ||
+    dbConnectionDetails.password == null
+  ) {
+    logger.warn('Username and/or password not configured in secrets')
+  }
+
   let runResults = {}
 
   let connection
   try {
     connection = await oracledb.getConnection({
-      user: 'test',
-      password: 'this is not a password',
-      connectString: `${address}`,
+      user: dbConnectionDetails.username ?? '',
+      password: dbConnectionDetails.password ?? '',
+      connectString: `${address}/${dbConnectionDetails.dbname}`,
       httpsProxy: proxyUrl.hostname,
       httpsProxyPort: +proxyUrl.port
     })
